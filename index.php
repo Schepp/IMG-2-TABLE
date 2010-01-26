@@ -117,9 +117,9 @@ table {border: #333333 1px solid;}
 <?php 
 if(isset($_FILES['userfile']))
 {
-	echo '<h2>Result</h2>'.$table.'<br /><h2>Size Comparison</h2>'; 
-	echo 'Before: '.round(filesize($uploadfile) / 1024).' KB<br />';
-	echo 'After: '.round(strlen($style.$table) / 1024).' KB<br />';
+	echo '<h2>Result</h2>Dimensions: '.$info[0].' &times; '.$info[1].' pixel<br />Colors Used: '.count($class_array).' colors<br />Uncompressed Byte-Size (8-Bit Color): '.round(($info[0]*$info[1])/1024).' KB<br /><br />'.$table.'<br /><h2>Size Comparison</h2>'; 
+	echo 'Before: '.round(filesize($uploadfile) / 1024).' KB (source-image file-size)<br />';
+	echo 'After: '.round(strlen($style.$table) / 1024).' KB (source-code byte-size)<br />';
 echo '<h2>Code</h2>
 <textarea cols="200" rows="100" style="width: 95%"><style type="text/css">
 '.$style.'</style>
