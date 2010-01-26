@@ -76,7 +76,7 @@ if(isset($_FILES['userfile']))
 			arsort($class_count);
 			reset($class_count);
 			$backgroundcolor = key($class_count);
-			$table = "<h2>Result</h2><table cellpadding=0 cellspacing=0 border=0 width=".($info[0] * $stretch)." height=".($info[1] * $stretch)." style=table-layout:fixed bgcolor=".$backgroundcolor."><tr>".str_replace(" class=".$class_array[$backgroundcolor].">",">",$table);
+			$table = "<table cellpadding=0 cellspacing=0 border=0 width=".($info[0] * $stretch)." height=".($info[1] * $stretch)." style=table-layout:fixed bgcolor=".$backgroundcolor."><tr>".str_replace(" class=".$class_array[$backgroundcolor].">",">",$table);
 		}
 		else echo 'Unsupported file format!';
 	}
@@ -104,7 +104,7 @@ table {border: #333333 1px solid;}
 <?php 
 if(isset($_FILES['userfile']))
 {
-	echo $table.'<br /><h2>Size Comparison</h2>'; 
+	echo '<h2>Result</h2>'.$table.'<br /><h2>Size Comparison</h2>'; 
 	echo 'Before: '.round(filesize($uploadfile) / 1024).' KB<br />';
 	echo 'After: '.round(strlen($style.$table) / 1024).' KB<br />';
 echo '<h2>Code</h2>
