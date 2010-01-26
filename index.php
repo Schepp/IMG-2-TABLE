@@ -4,13 +4,11 @@ error_reporting(2047);
 $stretch = (isset($_POST['stretch']) && intval($_POST['stretch']) > 1) ? intval($_POST['stretch']) : 1;
 $prefix = (isset($_POST['prefix']) && preg_match('/[a-z]/i',$_POST['prefix']) == 1) ? $_POST['prefix'] : 't';
 $border = FALSE;
-if($border && $stretch > 1)
-{
-$style = 'table{border-right: #000 1px solid;border-top: #000 1px solid}
-td{border-left: #000 1px solid;border-bottom: #000 1px solid;}
+if($border && $stretch > 1) $style = 'table.'.$prefix.'table{border-right: #000 1px solid;border-top: #000 1px solid}
+table.'.$prefix.'table td{{width:'.($stretch - 1).'px;height:'.($stretch - 1).'px;border-left: #000 1px solid;border-bottom: #000 1px solid;}
 ';
-}
-else $style = '';
+else $style = 'table.'.$prefix.'table td{width:'.$stretch.'px;height:'.$stretch.'px;}
+';
 $table = '';
 
 if(isset($_FILES['userfile']))
@@ -90,7 +88,7 @@ if(isset($_FILES['userfile']))
 			arsort($class_count);
 			reset($class_count);
 			$backgroundcolor = key($class_count);
-			$table = "<table cellpadding=0 cellspacing=0 border=0 width=".($info[0] * $stretch)." height=".($info[1] * $stretch)." style=table-layout:fixed bgcolor=".$backgroundcolor."><tr>".str_replace(" class=".$class_array[$backgroundcolor].">",">",$table);
+			$table = "<table cellpadding=0 cellspacing=0 border=0 width=".($info[0] * $stretch)." class=".$prefix."table style=table-layout:fixed bgcolor=".$backgroundcolor."><tr>".str_replace(" class=".$class_array[$backgroundcolor].">",">",$table);
 		}
 		else echo 'Unsupported file format!';
 	}
