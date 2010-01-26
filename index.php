@@ -25,16 +25,30 @@ if(isset($_FILES['userfile']))
 	$class_table_count = count($class_table);
 	for($j=0;$j<$class_table_count;$j++)
 	{
-		for($i=0;$i<$class_table_count;$i++) array_push($class_table,$class_table[$j].$class_table[$i]);
+		for($i=0;$i<$class_table_count;$i++) 
+		{
+			if(count($class_table) < 256) array_push($class_table,$class_table[$j].$class_table[$i]);
+			else break;
+		}
 	}
 	
 	$uploadfile = $_FILES['userfile']['name'];
 	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) 
 	{
 		$info = getimagesize($uploadfile);
-		if(strtoupper($info[2]) == 1 || strtoupper($info[2]) == 3)
+		if(strtoupper($info[2]) == 1 || strtoupper($info[2]) == 2 || strtoupper($info[2]) == 3)
 		{
-			$img = imagecreatefromgif($uploadfile);
+			if(strtoupper($info[2]) == 1) $img = imagecreatefromgif($uploadfile);
+			if(strtoupper($info[2]) == 2) 
+			{
+				$img = imagecreatefromjpeg($uploadfile);
+				imagetruecolortopalette($img, false, 255);
+			}
+			if(strtoupper($info[2]) == 3) 
+			{
+				$img = imagecreatefrompng($uploadfile);
+				imagetruecolortopalette($img, false, 255);
+			}
 			for($y=0;$y<$info[1];$y++)
 			{
 				$lastcolor = '';
@@ -97,8 +111,9 @@ table {border: #333333 1px solid;}
 <form name="bildform" action="index.php" method="post" enctype="multipart/form-data">
 	<label>Stretch-factor: <input type="text" name="stretch" value="<?php echo $stretch; ?>" size="1" maxlength="1"></label>&nbsp;
 	<label>Class-prefix: <input type="text" name="prefix" value="<?php echo $prefix; ?>" size="1" maxlength="1"></label><br />
-	<label>File (GIF/PNG): <input type="file" name="userfile" size="40"></label>
-	<input type="submit" value="convert">
+	<label>File (GIF/PNG/JPG): <input type="file" name="userfile" size="40"></label>
+	<input type="submit" value="convert"><br />
+	<i><strong>Note:</strong> truecolor-images will be reduced to 256 colors. Transparency is not yet supported.</i>
 </form>
 
 <?php 
