@@ -86,7 +86,7 @@ function img2table($sourcefile = '',$stretch = 1,$prefix = 't')
 $stretch = (isset($_POST['stretch']) && intval($_POST['stretch']) > 1) ? intval($_POST['stretch']) : 1;
 $prefix = (isset($_POST['prefix']) && preg_match('/[a-z]/i',$_POST['prefix']) == 1) ? $_POST['prefix'] : 't';
 $html = '';
-if(isset($_FILES['userfile']))
+if(isset($_FILES['userfile']) && isset($_FILES['userfile']['name']) && trim($_FILES['userfile']['name']) != '')
 {
 	$uploadfile = $_FILES['userfile']['name'];
 	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) 
@@ -117,7 +117,7 @@ table {border: #333333 1px solid;}
 </form>
 
 <?php 
-if(isset($_FILES['userfile']))
+if(isset($_FILES['userfile']) && isset($_FILES['userfile']['name']) && trim($_FILES['userfile']['name']) != '')
 {
 	echo '<h2>Result</h2>Dimensions: '.$info[0].' &times; '.$info[1].' pixel<br />Uncompressed Byte-Size (8-Bit Color): '.round(($info[0]*$info[1])/1024).' KB<br /><br />'.$html.'<br /><h2>Size Comparison</h2>'; 
 	echo 'Before: '.round(filesize($uploadfile) / 1024).' KB (source-image file-size)<br />';
