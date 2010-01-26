@@ -28,7 +28,7 @@ if(isset($_FILES['userfile']))
 		for($i=0;$i<$class_table_count;$i++) array_push($class_table,$class_table[$j].$class_table[$i]);
 	}
 	
-	$uploadfile = $_SERVER['DOCUMENT_ROOT'].'/img2html/'.$_FILES['userfile']['name'];
+	$uploadfile = $_FILES['userfile']['name'];
 	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) 
 	{
 		$info = getimagesize($uploadfile);
