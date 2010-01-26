@@ -1,6 +1,4 @@
 <?php
-ini_set('zlib.output_compression',1);
-ini_set('zlib.output_compression_level',9);
 error_reporting(2047);
 
 $stretch = (isset($_POST['stretch']) && intval($_POST['stretch']) > 1) ? intval($_POST['stretch']) : 1;
@@ -14,27 +12,22 @@ td{border-left: #000 1px solid;border-bottom: #000 1px solid;}
 }
 else $style = '';
 $table = '';
-$backgroundcolor = '';
-$class_array = array();
-$class_count = array();
-$class_table = array();
-for($i=48;$i<58;$i++) array_push($class_table,chr($i));
-for($i=65;$i<91;$i++) array_push($class_table,chr($i));
-for($i=97;$i<123;$i++) array_push($class_table,chr($i));
-$class_table_count = count($class_table);
-for($j=0;$j<$class_table_count;$j++)
-{
-	for($i=0;$i<$class_table_count;$i++) array_push($class_table,$class_table[$j].$class_table[$i]);
-}
-$class_table_count = count($class_table);
-#for($j=0;$j<$class_table_count;$j++)
-#{
-#	for($i=0;$i<$class_table_count;$i++) array_push($class_table,$class_table[$j].$class_table[$i]);
-#}
-#echo count($class_table);
 
 if(isset($_FILES['userfile']))
 {
+	$backgroundcolor = '';
+	$class_array = array();
+	$class_count = array();
+	$class_table = array();
+	for($i=48;$i<58;$i++) array_push($class_table,chr($i));
+	for($i=65;$i<91;$i++) array_push($class_table,chr($i));
+	for($i=97;$i<123;$i++) array_push($class_table,chr($i));
+	$class_table_count = count($class_table);
+	for($j=0;$j<$class_table_count;$j++)
+	{
+		for($i=0;$i<$class_table_count;$i++) array_push($class_table,$class_table[$j].$class_table[$i]);
+	}
+	
 	$uploadfile = $_SERVER['DOCUMENT_ROOT'].'/img2html/'.$_FILES['userfile']['name'];
 	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) 
 	{
