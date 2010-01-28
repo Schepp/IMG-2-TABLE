@@ -8,7 +8,7 @@ function img2table($sourcefile = '',$stretch = 1,$prefix = 't')
 	$table = '';
 	$backgroundcolor = '';
 	$charcount = 0;
-	$linelengththreshold = 700;
+	$linelengththreshold = 100;
 	$class_array = array();
 	$class_count = array();
 	$class_table = array();
@@ -23,21 +23,15 @@ function img2table($sourcefile = '',$stretch = 1,$prefix = 't')
 			else break;
 		}
 	}
+	echo count($class_table);
 
 	$info = getimagesize($sourcefile);
 	if(strtoupper($info[2]) == 1 || strtoupper($info[2]) == 2 || strtoupper($info[2]) == 3)
 	{
 		if(strtoupper($info[2]) == 1) $img = imagecreatefromgif($sourcefile);
-		if(strtoupper($info[2]) == 2) 
-		{
-			$img = imagecreatefromjpeg($sourcefile);
-			imagetruecolortopalette($img, false, 255);
-		}
-		if(strtoupper($info[2]) == 3) 
-		{
-			$img = imagecreatefrompng($sourcefile);
-			imagetruecolortopalette($img, false, 255);
-		}
+		if(strtoupper($info[2]) == 2) $img = imagecreatefromjpeg($sourcefile);
+		if(strtoupper($info[2]) == 3) $img = imagecreatefrompng($sourcefile);
+		imagetruecolortopalette($img, false, 255);
 		for($y=0;$y<$info[1];$y++)
 		{
 			$lastcolor = '';
@@ -83,7 +77,7 @@ function img2table($sourcefile = '',$stretch = 1,$prefix = 't')
 			}
 			$charbefore = strlen($table);
 			if($colorcounter > 1) $table .= "<td width=".($stretch * $colorcounter)." class=".$class_array[$currentcolor].">";
-			elseif($colorcounter == 1) $table .= "<td".(($stretch > 1) ? " width=".$stretch : "")." class=".$class_array[$currentcolor].">";
+			else $table .= "<td".(($stretch > 1) ? " width=".$stretch : "")." class=".$class_array[$currentcolor].">";
 			$table .= "</table>";
 			$charafter = strlen($table);
 			$charcount += ($charafter - $charbefore);
@@ -126,6 +120,7 @@ body {font-family: Arial, Helvetica, sans-serif; background-color: #666; color: 
 </style>
 </head>
 <body>
+<h1>&lt;IMG&gt; 2 &lt;TABLE&gt; Converter</h1>
 <h2>Options</h2>
 <?php
 $out = '<form name="bildform" action="'.$_SERVER['PHP_SELF'].'" method="post" enctype="multipart/form-data">
@@ -178,9 +173,9 @@ $mailhtml = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "htt
 		$mail->From = 'webmaster@pimpmylaptop.de';	
 		$mail->FromName = 'IMG-2-TABLE Script';
 		$mail->AddAddress($_POST['email'],$_POST['email']);
-		$mail->Subject = utf8_decode("IMG-2-TABLE Test");
+		$mail->Subject = utf8_decode("IMG-2-TABLE Test with ".$_FILES['userfile']['name']);
 		$mail->Body = utf8_decode($mailhtml);
-		$mail->AltBody 	= 'IMG-2-TABLE Test';
+		$mail->AltBody 	= utf8_decode("IMG-2-TABLE Test with ".$_FILES['userfile']['name']);
 		if (!$mail->Send()) echo '<p>'.$mail->ErrorInfo.'</p>';
 	}
 }
